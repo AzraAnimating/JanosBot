@@ -1,32 +1,30 @@
 package com.zyonicsoftware.jensbot.main;
 
 import com.zyonicsoftware.jensbot.discord.JensDiscordBot;
-import com.zyonicsoftware.jensbot.restapi.RestAPIController;
-import com.zyonicsoftware.jensbot.twitch.JensTwitchBot;
 import com.zyonicsoftware.jensbot.util.Config;
 import com.zyonicsoftware.jensbot.util.MySQLManager;
 
 import javax.security.auth.login.LoginException;
+import java.sql.SQLException;
+import java.time.ZonedDateTime;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 
 public class JensController {
 
     private JensDiscordBot jensDiscordBot;
-    private JensTwitchBot jensTwitchBot;
     private MySQLManager mySQLManager;
+    private Timer timer;
 
-    public JensController(Config config) {
-        this.initTwitch(config);
-        try {
-            this.initDiscord(config.getDiscordToken());
-            this.mySQLManager = new MySQLManager(this, config.getMySQLHost(), config.getMySQLPort(), config.getMySQLUser(), config.getMySQLPassword(), config.getMySQLDatabase());
-            RestAPIController.mySQLManager = this.mySQLManager;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void initTwitch(Config config) {
-        this.jensTwitchBot = new JensTwitchBot(config.getTwitchAccessToken(), config.getTwitchClientID(), config.getTwitchClientSecret(), this);
+    public JensController(Config config) throws LoginException, SQLException {
+        //this.initTwitch(config);
+        this.initDiscord(config.getDiscordToken());
+        this.mySQLManager = new MySQLManager(this, config.getMySQLHost(), config.getMySQLPort(), config.getMySQLUser(), config.getMySQLPassword(), config.getMySQLDatabase());
+        //this.timer = new Timer();
+        //this.startScheduledTask();
     }
 
     private void initDiscord(String token) throws LoginException {
@@ -37,11 +35,16 @@ public class JensController {
         return jensDiscordBot;
     }
 
-    public JensTwitchBot getJensTwitchBot() {
-        return jensTwitchBot;
-    }
-
     public MySQLManager getMySQLManager() {
         return mySQLManager;
+    }
+
+    private void startScheduledTask() {
+        this.timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                mySQLManager.loadFromDBIntoCache();
+            }
+        }, 600000, 600000);
     }
 }

@@ -1,7 +1,5 @@
 package com.zyonicsoftware.jensbot.util;
 
-import com.zyonicsoftware.jensbot.restapi.RestAPIController;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -88,11 +86,6 @@ public class Config {
 
     public void setMySQLDatabase(String mySQLDatabase) {
         this.mySQLDatabase = mySQLDatabase;
-    }
-
-    public void setAllowedTokens(String allowedTokens) {
-        String[] tokens = allowedTokens.split(";");
-        RestAPIController.allowedKeys = new ArrayList<>(Arrays.asList(tokens));
     }
 
     public void setApiPort(int port) {

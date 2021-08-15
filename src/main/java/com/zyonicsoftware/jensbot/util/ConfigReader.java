@@ -28,7 +28,6 @@ public class ConfigReader {
                 config.setMySQLUser(yamlFile.getString("mySQLUsername"));
                 config.setMySQLPassword(yamlFile.getString("mySQLPassword"));
                 config.setApiPort(yamlFile.getInt("apiPort"));
-                config.setAllowedTokens(yamlFile.getString("allowedTokens"));
             } else {
 
                 final YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(configFile);

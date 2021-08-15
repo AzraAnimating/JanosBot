@@ -2,7 +2,6 @@ package com.zyonicsoftware.jensbot.util;
 
 import com.zyonicsoftware.jensbot.main.JensController;
 import de.daschi.core.MySQL;
-import org.checkerframework.checker.units.qual.C;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

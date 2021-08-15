@@ -15,7 +15,6 @@ public class PrivateMessageReceivedListener extends ListenerAdapter {
 
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
         if(event.getAuthor().getId().equals("309007975060602882") || event.getAuthor().getId().equals("580345213831086080") || event.getAuthor().getId().equals("755445139836502116")) {
-            this.jensDiscordBot.getJensController().getJensTwitchBot().sendMessage(event.getMessage().getContentRaw());
         }
     }
 
